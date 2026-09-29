@@ -9,14 +9,18 @@ const moment = require('moment');
 const BOT_TOKEN = process.env.BOT_TOKEN || '8889433297:AAHOsY7hJdm2otvMb08nWgZ1LbKnkQPoOsQ';
 const ADMIN_ID = parseInt(process.env.ADMIN_ID || '6806297257');
 const API_URL = "https://draw.ar-lottery01.com/WinGo/";
-const REQUIRED_CHANNEL = '@Wingo30sec_joel'; // Apnar official channel
+const REQUIRED_CHANNEL = '@Wingo30sec_joel';
 
 // ==========================================
-// 2. FIREBASE SETUP
+// 2. FIREBASE SETUP (FIXED FOR RAILWAY)
 // ==========================================
 let serviceAccount;
 if (process.env.FIREBASE_SERVICE_ACCOUNT) {
-    serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT);
+    try {
+        serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT);
+    } catch (e) {
+        serviceAccount = process.env.FIREBASE_SERVICE_ACCOUNT;
+    }
 } else {
     serviceAccount = require('./firebase-key.json');
 }
@@ -324,7 +328,7 @@ async function checkAndSendSignals() {
                             else if (u.mode === 'COL') target = `🔮 **Target:** ${emoji} ${prediction.color}`;
                             else target = `🔮 **Target:** ${prediction.size} | ${emoji} ${prediction.color} (N${prediction.number})`;
 
-                            const msg = `🎰 **WIN GO 30s - LIVE SIGNAL** 🎰\n━━━━━━━━━━━━━━━━━━\n📌 **Period:** \`${nextPeriod}\`\n${target}\n📊 **Confidence:** ${prediction.confidence}%\n💰 **Multiplier:** BET 1X\n━━━━━━━━━━━━━━━━━━\n⚡️ *Predictor Pro VIP*`;
+                            const msg = `🎰 **WIN GO 30s - LIVE SIGNAL** 🎰\n━━━━━━━━━━━━━━━━━━\n📌 **Period:** \`${nextPeriod}\`\n${target}\n📊 **Confidence:** ${prediction.confidence}%\n💰 **Multiplier:** BET 1X\n━━━━━━━━━━━━━━━━━━\n⚡️️ *Predictor Pro VIP*`;
                             
                             bot.sendMessage(uid, msg, {parse_mode: "Markdown"});
                         }
